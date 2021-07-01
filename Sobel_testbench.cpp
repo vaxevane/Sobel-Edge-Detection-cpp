@@ -111,10 +111,9 @@ int main(){
 	//Running Algorithm
 	run_algorithm(image,gx,gy,out_image,out_image_angle);
 
-	//Reusing image to read the check values USE AFTER CREATING THE FIRST CHECK FILES
-	read(image,checkdir);
-	
 	if(mode == 1){
+		//Reusing image to read the check values USE AFTER CREATING THE FIRST CHECK FILES
+		read(image,checkdir);
 		//Checking if the edge detection algorithm is correct
 		corr_count = 0;
 		for(int n = 0; n < N; n++){
