@@ -21,14 +21,12 @@ int main(){
 	for (int i = 0; i < 5; i++){
 		
 		int  pic = rand() % 10 + 1;
-//		std::cout << pic << " ";
 		//Find always a diff image
 		while(check_array[i] == 0){
 		int val = 0;
 			for(int j = 0; j <= i; j++){
 				if(check_array[j] == pic){
 					val = check_array[j];
-				//	std::cout << "SAMEEE ";
 				}
 			}
 			if(val == pic){
@@ -118,13 +116,15 @@ int main(){
 		corr_count = 0;
 		for(int n = 0; n < N; n++){
 			for(int m = 0; m < M; m++){
-	//			std::cout << truncf(out_image[n][m]) << " " << image[n][m];
-	//			std::cout << "\n";
 				if(truncf(out_image[n][m]) == image[n][m]){
 					corr_count++;
 				} 
 			}
 		}
+	if(corr_count == N*M){
+		std::cout << "The produced image's edges have been indentified correctly \n\n";
+	}
+	}
 	}
 	//Write back the results on the Output file
 	write_all(gx,gy,out_image,out_image_angle,outdir);
