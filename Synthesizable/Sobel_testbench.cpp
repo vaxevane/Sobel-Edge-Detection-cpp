@@ -11,25 +11,20 @@
 
 #include <mc_scverify.h>
 
-
-//typedef ac_fixed<19,19,false> root;
-//typedef ac_int<8,false> pixel;
-
-
 CCS_MAIN(int argc,char *argv[]){
 	
-	float in_image[N][M],gx[N][M],gy[N][M],out_image[N][M],out_image_angle[N][M];
+	int image[N][M],gx[N][M],gy[N][M],out_image[N][M],out_image_angle[N][M];
 	int check_array[5] = {0, 0, 0, 0, 0};
 	char indir[50],outdir[50],checkdir[50];
 	int mode;
 	
-	std::cout << "Choose Mode: (0) Produce Check Mode or (1) Test Mode \n"; 
+	std::cout << "CHOOSE MODE: (0) Produce Check Mode or (1) Test Mode \n\n"; 
 	//std::cin >> mode;
 	mode = 1;
 	srand (time(NULL));
 	//Finding the Edges for 5 out of 10 (random)
 	for (int i = 0; i < 5; i++){
-		
+		//int i = 1;
 		int  pic = rand() % 10 + 1;
 		
 		//Find always a diff image
@@ -115,22 +110,22 @@ CCS_MAIN(int argc,char *argv[]){
 				break;
 		}
 	//Reading initial image
-	read(in_image,indir);
+	read(image,indir);
 
 	//Running Algorithm
-	run_algorithm((pixel(*)[352])in_image,(root(*)[352])gx,(root(*)[352])gy,(root(*)[352])out_image,(root(*)[352])out_image_angle);
+	run_algorithm(image,gx,gy,out_image,out_image_angle);
 
 	
 	
 	if(mode == 1){
 		//Reusing image to read the check values USE AFTER CREATING THE FIRST CHECK FILES
-		read(in_image,checkdir);
+		read(image,checkdir);
 		std::cout << "----------Reading Check Image----------\n";
 		//Checking if the edge detection algorithm is correct
 		int corr_count = 0;
 		for(int n = 0; n < N; n++){
 			for(int m = 0; m < M; m++){
-				if(truncf(out_image[n][m]) == in_image[n][m]){
+				if(out_image[n][m] == image[n][m]){
 					corr_count++;
 				} 
 			}
