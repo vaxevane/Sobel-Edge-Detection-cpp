@@ -27,7 +27,7 @@ conv convolution(pixel window[W][W],int kernel[W][W]){
 }
 
 #pragma hls_design top
-void CCS_BLOCK(Sobel_algorithm)(pixel image[N][M], conv Gx[N][M], conv Gy[N][M], grd edges[N][M],ac_int<9,true> angle[N][M]){
+void CCS_BLOCK(Sobel_algorithm)(pixel image[N][M], conv Gx[N][M], conv Gy[N][M], grd edges[N][M],ac_int<11,true> angle[N][M]){
 
 	int kx[W][W] = {{1, 0, -1},{2, 0, -2},{1, 0, -1}};
 	int ky[W][W] = {{1, 2, 1},{0, 0, 0},{-1, -2, -1}};
@@ -39,7 +39,7 @@ void CCS_BLOCK(Sobel_algorithm)(pixel image[N][M], conv Gx[N][M], conv Gy[N][M],
 	conv tx,ty;
 	sq sqx,sqy;
 	root sq_sum;
-	ac_fixed<16,9,false> result;
+	ac_fixed<16,11,false> result;
 	ang resul;
 	
 	IMAGEX:for (int i = 0; i < N; i++) {
@@ -62,13 +62,13 @@ void CCS_BLOCK(Sobel_algorithm)(pixel image[N][M], conv Gx[N][M], conv Gy[N][M],
 				sq_sum = sqx + sqy;
 				ac_math::ac_sqrt(sq_sum,result);
 				edges[i-1][j-1] = result.to_uint();
-				ac_math::ac_atan2_cordic((ac_fixed<9,9>)ty,(ac_fixed<9,9>)tx,resul);
+				ac_math::ac_atan2_cordic((ac_fixed<9,11>)ty,(ac_fixed<9,11>)tx,resul);
 				angle[i-1][j-1] = resul.to_int();
 			}			
 		}
 	}
 	
-/*	IMAGEX:for(int i = 1; i < N-1; i++){
+	/*IMAGEX:for(int i = 1; i < N-1; i++){
 		IMAGEY:for(int j = 1; j< M-1; j++){
 			tx = (Gx[i-1][j-1] = convolution(image, kx, i, j));
 			ty = (Gy[i-1][j-1] = convolution(image, ky, i, j));
@@ -77,7 +77,7 @@ void CCS_BLOCK(Sobel_algorithm)(pixel image[N][M], conv Gx[N][M], conv Gy[N][M],
 			sq_sum = sqx + sqy;
 			ac_math::ac_sqrt(sq_sum,result);
 			edges[i-1][j-1] = result.to_uint();
-			ac_math::ac_atan2_cordic((ac_fixed<9,9>)ty,(ac_fixed<9,9>)tx,resul);	
+			ac_math::ac_atan2_cordic((ac_fixed<9,11>)ty,(ac_fixed<9,11>)tx,resul);	
 			angle[i-1][j-1] = resul.to_int();	
 		}
 	}*/
@@ -110,7 +110,8 @@ void run_algorithm(int image[N][M], int Gx[N][M], int Gy[N][M], int edges[N][M],
 	pixel pixelimage[N][M];
 	conv Gradx[N][M],Grady[N][M];
 	grd Grad[N][M];
-	ac_int<9,true> Angle[N][M];
+	ac_int<11,true> Angle[N][M];
+	
 	for (int i = 0; i < N; i++){
 		for(int j = 0; j < M; j++){
 			pixelimage[i][j] = image[i][j];

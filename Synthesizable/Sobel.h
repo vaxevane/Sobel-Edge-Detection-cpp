@@ -14,7 +14,7 @@ typedef ac_int<8,false> pixel;
 typedef ac_int<11,true> conv;
 typedef ac_int<20,false> sq;
 typedef ac_fixed<14,21,false> root;
-typedef ac_int<10,false> grd;
+typedef ac_int<11,false> grd;
 typedef ac_fixed<8,3,true> ang;
 
 
